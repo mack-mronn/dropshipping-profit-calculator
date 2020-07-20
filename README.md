@@ -4,4 +4,4 @@ Using this Code you will know your profits in your dropshipping business. You wi
 ##Input Parameters Requried
 Input parameters supply, margin, sales and Alidropship coupon codes (or) alidropship cashback. Providing these parameters will estimate the profits using our unique calculator.
 
-We got this information from [This website](https://www.mronn.com/alidropship-coupon-code)
+We got this information from [Alidrpship profit calculator](https://www.mronn.com/alidropship-coupon-code)
