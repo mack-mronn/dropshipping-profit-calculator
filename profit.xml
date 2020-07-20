@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
+    <flow name="sample3Flow"> 
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/sample3" allowedMethods="POST" doc:name="HTTP"/>
+        <dw:transform-message doc:name="Transform Message">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java 
+---
+payload : {
+	supply : payload.supply,
+	margin : payload.margin,
+	sales : payload.sales,
+	couponcode: payoad.coupon,
+	profit:  payload.margin * payload.sales
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <logger message="asdf#[payload]asdf#[payload.date]" level="INFO" doc:name="Logger"/>
+<!--         <validation:matches-regex  message="invalid date format "   doc:name="Validation" caseSensitive="true" regex="^\d\d\W...\W\d\d\d\d\s\d\d\W\d\d\W\d\d" value="#[payload.date]"/> -->
+        <validation:matches-regex message="INVSERCHRGDATE" value="#[payload.date]" regex="&quot;^\d\d\W...\W\d\d\d\d\s\d\d\W\d\d\W\d\d&quot;" caseSensitive="true" doc:name="Validation"/>
+
+        <logger message="#[payload.serviceChargeDate]" level="INFO" doc:name="Logger"/>
+    </flow>
+</mule>
